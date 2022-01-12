@@ -7,6 +7,31 @@
         mc:Ignorable="d"
         Title="Old File Cleanup" Height="450" Width="800">
     <Grid>
-
+        <ComboBox x:Name="drivesComboBox"
+                  Height="50"
+                  VerticalAlignment="Top">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding DriveFormat}" />
+                        <TextBlock Text="{Binding DriveType}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Available Free Space: " />
+                            <TextBlock Text="{Binding AvailableFreeSpace}" />
+                            <TextBlock Text=" bytes, Total Free Space: " />
+                            <TextBlock Text="{Binding TotalFreeSpace}" />
+                            <TextBlock Text=" bytes, Total Space: " />
+                            <TextBlock Text="{Binding TotalSize}" />
+                            <TextBlock Text=" bytes" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Content="Load Drives"
+                Name="LoadDrivesButton"
+                VerticalAlignment="Bottom"
+                Click="LoadDrivesButton_Click" Height="50" />
     </Grid>
 </Window>
