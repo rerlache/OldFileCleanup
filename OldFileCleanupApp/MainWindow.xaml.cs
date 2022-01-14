@@ -28,7 +28,7 @@ namespace OldFileCleanup
         }
         public void GetDriveInformations()
         {
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
+            DriveInfo[] allDrives = DriveInfo.GetDrives().Where(x => x.IsReady == true).ToArray();
             drivesComboBox.ItemsSource = allDrives;
             /* -- the following loop can be used in a console application, need to be rebuild for WPF --
             foreach (DriveInfo d in allDrives)
