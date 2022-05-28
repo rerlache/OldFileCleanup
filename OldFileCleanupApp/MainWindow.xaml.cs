@@ -21,6 +21,8 @@ namespace OldFileCleanup
     /// </summary>
     public partial class MainWindow : Window
     {
+        public List<FileInfo> files = new();
+        public List<DirectoryInfo> directories = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -57,9 +59,33 @@ namespace OldFileCleanup
         public void GetDriveContent(string DriveLetter)
         {
             DriveInfo driveInfo = new DriveInfo(DriveLetter);
-            DirectoryInfo[] directories = driveInfo.RootDirectory.GetDirectories();
-            DriveContent.ItemsSource = directories;
-            FileInfo[] filenames = driveInfo.RootDirectory.GetFiles();
+            if (directories.Count >= 0)
+            {
+                directories.Clear();
+            }
+            if (files.Count >= 0)
+            {
+                files.Clear();
+            }
+            // TODO: fix access denied error for files and directories!
+            // TODO: create treeview for files
+            try
+            {
+                files = driveInfo.RootDirectory.GetFiles("*.*", SearchOption.AllDirectories).ToList();
+                directories = driveInfo.RootDirectory.GetDirectories("*", SearchOption.AllDirectories).ToList();
+            }
+            catch (Exception)
+            {
+                ;
+            }
+            ContentHeader.Text = String.Format("found {0} files in {1} directories", files.Count().ToString(), directories.Count().ToString());
+            //DriveContent.ItemsSource = files;
+        }
+        public void GetFoldercontent(string folderPath)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+            DirectoryInfo[] directories = directoryInfo.GetDirectories();
+            FileInfo[] files = directoryInfo.GetFiles();
             ;
         }
         private void LoadDrivesButton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +96,12 @@ namespace OldFileCleanup
         private void DriveSelection(object sender, SelectionChangedEventArgs e)
         {
             GetDriveContent(e.AddedItems[0].ToString());
+        }
+
+        private void TreeViewExpand_Click(object sender, RoutedEventArgs e)
+        {
+            ;
+            GetFoldercontent(sender.ToString());
         }
     }
 }

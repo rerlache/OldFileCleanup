@@ -35,10 +35,17 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TreeView x:Name="DriveContent"
-                  Grid.Row="1">
-            
+        <StackPanel Grid.Row="1">
+            <TextBlock x:Name="ContentHeader" />
+            <TreeView x:Name="DriveContent"
+                  Expander.Expanded="TreeViewExpand_Click">
+            <!--<TreeView.ItemTemplate>
+                <DataTemplate DataType="local:Item">
+                    <TreeViewItem ItemsSource="{Binding Path=files}" Header="{Binding Path=Name}" />
+                </DataTemplate>
+            </TreeView.ItemTemplate>-->
         </TreeView>
+        </StackPanel>
         <Button Content="Load Drives"
                 Name="LoadDrivesButton"
                 Grid.Row="2"
