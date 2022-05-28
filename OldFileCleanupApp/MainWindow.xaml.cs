@@ -51,12 +51,25 @@ namespace OldFileCleanup
                         "  Total size of drive:            {0, 15} bytes ",
                         d.TotalSize);
                 }
+            }
             */
         }
-
+        public void GetDriveContent(string DriveLetter)
+        {
+            DriveInfo driveInfo = new DriveInfo(DriveLetter);
+            DirectoryInfo[] directories = driveInfo.RootDirectory.GetDirectories();
+            DriveContent.ItemsSource = directories;
+            FileInfo[] filenames = driveInfo.RootDirectory.GetFiles();
+            ;
+        }
         private void LoadDrivesButton_Click(object sender, RoutedEventArgs e)
         {
             GetDriveInformations();
+        }
+
+        private void DriveSelection(object sender, SelectionChangedEventArgs e)
+        {
+            GetDriveContent(e.AddedItems[0].ToString());
         }
     }
 }
